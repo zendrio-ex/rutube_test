@@ -1,0 +1,5 @@
+.venv
+ML
+__pycache__
+*ipynb
+settings.local.json
