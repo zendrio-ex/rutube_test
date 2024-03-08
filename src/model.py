@@ -126,7 +126,8 @@ class MyImageNet(nn.Module):
         x = self.batchnorm_2(x)
         x = torch.flatten(x, 1)  # for fc
         x = F.relu(self.fc1(x))
-        x = F.softmax(self.fc2(x), dim=-1)
+        x = self.fc2(x)
+        x = F.softmax(x, dim=-1)
         return x
 
 

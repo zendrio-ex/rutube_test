@@ -11,6 +11,22 @@ class Preparation:
         def __call__(self, image):
             return image.long()/256
 
+    class Cropper():
+        def __call__(self, image):
+            if (image.size()[1] > max_height) and (image.size()[2] > max_width):
+                cropper = transforms.CenterCrop(size=(max_height,
+                                                      max_width))
+            elif (image.size()[1] > max_height):
+                cropper = transforms.CenterCrop(size=(max_height,
+                                                      image.size()[2]))
+            elif (image.size()[2] > max_width):
+                cropper = transforms.CenterCrop(size=(image.size()[1],
+                                                      max_width))
+            else:
+                return image
+
+            return cropper(image)
+
     class GrayPreprocessing():
         def __call__(self, image):
             if image.size()[0] == 1:
@@ -39,6 +55,7 @@ class Preparation:
     def __init__(self):
         self.image_transform = transforms.Compose([
                 self.GrayPreprocessing(),
+                self.Cropper(),
                 self.MinMaxScaler(),
                 transforms.Normalize([0.485, 0.456, 0.406],
                                      [0.229, 0.224, 0.225]),
@@ -48,5 +65,6 @@ class Preparation:
     def pipeline(self, image):
         image = self.image_transform(image)
         return image
+
 
 preparation = Preparation()
