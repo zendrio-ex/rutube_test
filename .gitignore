@@ -1,5 +1,7 @@
 .venv
+.pytest_cache
+.ipynb_checkpoints
 ML
 __pycache__
-*ipynb
+API test.ipynb
 settings.local.json
